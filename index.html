@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Ti ✨</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f2d 100%);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px;
+      overflow-x: hidden;
+      position: relative;
+      height: 100vh;
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    #mensaje {
+      font-size: 1.4em;
+      color: #ffffff;
+      margin: 30px auto;
+      min-height: 40px;
+      max-width: 500px;
+    }
+
+    @keyframes zoomIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .start-btn {
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+      animation: zoomIn 0.8s ease-out forwards;
+      opacity: 0;
+      display: none;
+    }
+
+    .start-btn:hover {
+      background: #e84356;
+      transform: scale(1.05);
+    }
+
+    .cards-container {
+      margin-top: 40px;
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .card {
+      background: #ffffff11;
+      border: 1px solid #ffffff33;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      margin: 20px auto;
+      padding: 20px;
+      width: 300px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    a {
+      text-decoration: none;
+      color: #ffb6c1;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    #spotify {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #spotify iframe {
+      border-radius: 16px;
+      width: 360px;
+      height: 90px;
+      border: none;
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      z-index: 10;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      background-color: rgba(0, 0, 0, 0.3);
+      transition: transform 0.6s ease, opacity 1s ease;
+    }
+
+    .estrella {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      opacity: 0.8;
+      font-size: 8px;
+      animation: caer linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes caer {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mis detalles para ti 🌌</h1>
+  <div id="mensaje"></div>
+  <button class="start-btn" id="botonInicio" onclick="iniciar()">Haz clic para comenzar 💫</button>
+
+  <div class="cards-container" id="regalos">
+    <div class="card"><a href="flor_animada.html">🌼 Un detalle que florece</a></div>
+    <div class="card"><a href="particulas_mensaje.html">💌 Una nota que no se borra</a></div>
+    <div class="card"><a href="musica_y_poema.html">💫 Hay cosas que solo brillan contigo</a></div>
+    <div class="card"><a href="orgullo/index.html">🎈 Estoy orgulloso de ti</a></div>
+    <div class="card"><a href="recuerdos/index.html">🖼️ Nuestros recuerdos</a></div>
+    <div class="card"><a href="dibujos/index.html">🎨 Nuestros dibujos</a></div>
+  </div>
+
+  <div id="spotify">
+    <iframe
+      src="https://open.spotify.com/embed/playlist/70btdzrK56000bi9yRtWFq?utm_source=generator"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+
+  <script>
+    const texto = "Tengo algo especial para ti...";
+    const mensajeElem = document.getElementById("mensaje");
+    const boton = document.getElementById("botonInicio");
+    const spotify = document.getElementById("spotify");
+    let i = 0;
+
+    function escribirTexto() {
+      if (i < texto.length) {
+        mensajeElem.innerHTML += texto.charAt(i);
+        i++;
+        setTimeout(escribirTexto, 80);
+      } else {
+        boton.style.display = "inline-block";
+      }
+    }
+
+    escribirTexto();
+
+    function iniciar() {
+      boton.style.display = 'none';
+      document.getElementById('regalos').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('regalos').style.opacity = '1';
+        spotify.style.display = 'block';
+        setTimeout(() => spotify.style.opacity = '1', 50);
+      }, 10);
+    }
+
+    setInterval(() => {
+      const estrella = document.createElement('div');
+      estrella.classList.add('estrella');
+      estrella.innerText = '✦';
+      estrella.style.left = Math.random() * 100 + 'vw';
+      estrella.style.animationDuration = (4 + Math.random() * 4) + 's';
+      estrella.style.fontSize = (6 + Math.random() * 10) + 'px';
+      document.body.appendChild(estrella);
+      setTimeout(() => estrella.remove(), 8000);
+    }, 200);
+  </script>
+
+</body>
+</html>

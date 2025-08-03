@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estoy orgulloso de ti 🎈</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at center, #ffe6f0 0%, #ffc9e3 60%, #ffb0d4 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+      position: relative;
+    }
+
+    .globo {
+      position: fixed;
+      top: -10px;
+      color: #ff4b5c;
+      font-size: 24px;
+      animation: flotar linear infinite;
+      opacity: 0.9;
+      z-index: 0;
+    }
+
+    @keyframes flotar {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.9; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+
+    .main-image {
+      max-width: 90%;
+      max-height: 70vh;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .caption {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #6b2144;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body onclick="iniciarMusica()">
+
+  <img src="imagen.jpg" alt="Motivo de orgullo" class="main-image">
+  <div class="caption">Estoy muy orgulloso de ti 💖</div>
+
+  <!-- 🎵 Música local -->
+  <audio id="musicaFondo" autoplay loop muted>
+    <source src="musica.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <script>
+    // 🎈 Globos flotantes más lentos
+    setInterval(() => {
+      const globo = document.createElement('div');
+      globo.classList.add('globo');
+      globo.innerText = '🎈';
+      globo.style.left = Math.random() * 100 + 'vw';
+      globo.style.animationDuration = (8 + Math.random() * 5) + 's';
+      globo.style.fontSize = (20 + Math.random() * 20) + 'px';
+      document.body.appendChild(globo);
+      setTimeout(() => globo.remove(), 14000);
+    }, 400);
+
+    // Activar música al primer clic
+    function iniciarMusica() {
+      const musica = document.getElementById("musicaFondo");
+      musica.muted = false;
+      musica.play().catch(() => {});
+      document.body.onclick = null;
+    }
+  </script>
+</body>
+</html>

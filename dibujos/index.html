@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nuestros dibujos 🎨</title>
+  <style>
+    body {
+      margin: 0;
+      background: url('fondo-textura.jpg') center/cover no-repeat;
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+    }
+
+    .galeria {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 40px;
+      gap: 30px;
+    }
+
+    .marco {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      transition: transform 0.3s ease;
+    }
+
+    .marco:hover {
+      transform: scale(1.05);
+      z-index: 3;
+    }
+
+    .dibujo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+    .chinche {
+      position: absolute;
+      width: 20px;
+      top: -10px;
+      left: calc(50% - 10px);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .ampliada {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      max-width: 80vw !important;
+      max-height: 80vh !important;
+      object-fit: contain !important;
+      z-index: 1001 !important;
+      border-radius: 15px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+      animation: none !important;
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 1000;
+    }
+
+    #volver {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background: #b85858;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      cursor: pointer;
+      z-index: 1002;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body onclick="iniciarMusica()">
+
+  <div id="overlay" onclick="cerrarAmpliada()"></div>
+  <button id="volver" onclick="location.href='../index.html'">Volver al inicio</button>
+
+  <audio id="musicaFondo" autoplay loop muted>
+    <source src="musica.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <div class="galeria">
+    <script>
+      const total = 56;
+      for (let i = 1; i <= total; i++) {
+        document.write(`
+          <div class="marco">
+            <img src="chinche.png" class="chinche">
+            <img src="dibujo (${i}).jpg" class="dibujo" onclick="ampliar(this)">
+          </div>
+        `);
+      }
+    </script>
+  </div>
+
+  <script>
+    const overlay = document.getElementById("overlay");
+
+    function ampliar(img) {
+      img.classList.add("ampliada");
+      overlay.style.display = "block";
+    }
+
+    function cerrarAmpliada() {
+      const ampliada = document.querySelector(".ampliada");
+      if (ampliada) ampliada.classList.remove("ampliada");
+      overlay.style.display = "none";
+    }
+
+    function iniciarMusica() {
+      const musica = document.getElementById("musicaFondo");
+      musica.muted = false;
+      musica.play().catch(() => {});
+      document.body.onclick = null;
+    }
+  </script>
+
+</body>
+</html>
+""

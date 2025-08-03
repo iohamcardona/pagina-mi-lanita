@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nuestros recuerdos 🖼️</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      position: relative;
+    }
+
+    .foto {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 15px 5px white;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: caerSuave linear infinite;
+      z-index: 2;
+    }
+
+    .foto:hover {
+      transform: scale(1.1);
+      z-index: 3;
+    }
+
+    .ampliada {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      max-width: 80vw !important;
+      max-height: 80vh !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      border-radius: 20px !important;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.8) !important;
+      z-index: 1001 !important;
+      transition: all 0.3s ease !important;
+      animation: none !important;
+    }
+
+    @keyframes caerSuave {
+      0% { transform: translateY(-150px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0.4; }
+    }
+
+    .estrella {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      opacity: 0.6;
+      font-size: 8px;
+      animation: estrellasCayendo linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes estrellasCayendo {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      z-index: 1000;
+    }
+
+    #volver {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 1em;
+      cursor: pointer;
+      z-index: 1002;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body onclick="iniciarMusica()">
+
+  <div id="overlay" onclick="cerrarAmpliada()"></div>
+  <button id="volver" onclick="location.href='../index.html'">Volver al inicio</button>
+
+  <!-- 🎵 Música de fondo invisible -->
+  <audio id="musicaFondo" autoplay loop muted>
+    <source src="cancion.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <script>
+    const totalFotos = 30;
+    const overlay = document.getElementById("overlay");
+
+    // ✦ Estrellas flotantes
+    setInterval(() => {
+      const estrella = document.createElement('div');
+      estrella.classList.add('estrella');
+      estrella.innerText = '✦';
+      estrella.style.left = Math.random() * 100 + 'vw';
+      estrella.style.animationDuration = (4 + Math.random() * 4) + 's';
+      estrella.style.fontSize = (6 + Math.random() * 12) + 'px';
+      document.body.appendChild(estrella);
+      setTimeout(() => estrella.remove(), 8000);
+    }, 250);
+
+    // 📸 Fotos en caída suave
+    for (let i = 1; i <= totalFotos; i++) {
+      const img = document.createElement("img");
+      img.src = `dibujo${i}.jpg`;
+      img.classList.add("foto");
+      img.style.left = Math.random() * 90 + "vw";
+      img.style.animationDuration = (14 + Math.random() * 8) + "s";
+      img.style.top = Math.random() * -200 + "px";
+      img.onclick = () => ampliar(img);
+      document.body.appendChild(img);
+    }
+
+    function ampliar(img) {
+      img.classList.add("ampliada");
+      overlay.style.display = "block";
+    }
+
+    function cerrarAmpliada() {
+      const ampliada = document.querySelector(".ampliada");
+      if (ampliada) ampliada.classList.remove("ampliada");
+      overlay.style.display = "none";
+    }
+
+    function iniciarMusica() {
+      const musica = document.getElementById("musicaFondo");
+      musica.muted = false;
+      musica.play().catch(() => {});
+      document.body.onclick = null;
+    }
+  </script>
+
+</body>
+</html>
